@@ -1,36 +1,24 @@
-# ResProguardInGradle
-when run "gralde assembleXX" ,auto do resource proguard and sign.
+# GridViewPager
+
+GridView in ViewPager
+
+<img src="https://github.com/MasonLiuChn/GridViewPager/raw/master/example/doc/1.png"  width="320" height="520"/>
+<img src="https://github.com/MasonLiuChn/GridViewPager/raw/master/example/doc/2.png"  width="320" height="520"/>
+<img src="https://github.com/MasonLiuChn/GridViewPager/raw/master/example/doc/3.png"  width="320"/>
 
 #Usage: 
-1、download resourceproguard.zip and extract it to your_android_studio_project/app/doc
 
-2、input "apply from: './doc/resourceproguard/resourceproguard.gradle'" to your build.gradle in your_android_studio_project/app. 
-
-3、gralde assembleDebug or gralde assembleRelease ,this gradle script will auto do resource proguad and sign.
-
-4、The signature of generated apk is the same as the signature of you provided APK.
-
-#Other:
-1、the resource proguard engine use [AndResGuard](https://github.com/shwenzhang/AndResGuard)
-
-2、you can config the resource progurad in your_android_studio_project/app/doc/resourceproguard/config.xml
-
-3、if you have flaver in your build.gradle ,please modify your_android_studio_project/app/doc/resourceproguard/resourceproguard.gradle
-
-for example:
 ```java
-afterEvaluate { project ->
-    ...
-    
-    project.tasks.assembleFlavorExampleDebug << {
-        resouceProguardTask("flavorExample-debug")
+repositories {
+    maven {
+        url "https://jitpack.io"
     }
+}
 
+dependencies {
+    compile 'com.github.MasonLiuChn:GridViewPager:1.0.1'
 }
 ```
-4、this script is only test in mac os，if you use linux or window you should replace the zipalign path
-
-5、you can clone this demo repo and enjoy it!
 
 #Contact me:
 
