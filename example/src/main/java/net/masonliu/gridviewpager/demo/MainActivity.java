@@ -31,10 +31,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         final List<String> list= Arrays.asList(mStrs);
         mViewPager = (GridViewPager) findViewById(R.id.myviewpager);
-        mViewPager.setGridViewPagerDataAdapter(new GridViewPagerDataAdapter(list.size(), 2, 4) {
+        mViewPager.setGridViewPagerDataAdapter(new GridViewPagerDataAdapter<String>(list, 2, 4) {
             @Override
-            public BaseAdapter getGridViewAdapter(int sizeInOnePage, int pageIndex,int start,int end) {
-                return new MyGridViewAdapter(getApplicationContext(), list.subList(start,end));
+            public BaseAdapter getGridViewAdapter(List<String> currentList,int pageIndex) {
+                return new MyGridViewAdapter(getApplicationContext(), currentList);
             }
 
             @Override

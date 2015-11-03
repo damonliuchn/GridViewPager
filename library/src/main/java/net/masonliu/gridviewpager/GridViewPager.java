@@ -17,10 +17,11 @@ import java.util.List;
 public class GridViewPager extends ViewPager {
     private List<GridView> mLists = new ArrayList<>();
     private GridViewPagerAdapter adapter;
-    private int sizeAll;
+    private List listAll;
     private int rowInOnePage;
     private int columnInOnePage;
     private GridViewPagerDataAdapter gridViewPagerDataAdapter;
+
     public GridViewPager(Context context) {
         super(context);
     }
@@ -35,7 +36,10 @@ public class GridViewPager extends ViewPager {
 
     public void setGridViewPagerDataAdapter(GridViewPagerDataAdapter gridViewPagerDataAdapter) {
         this.gridViewPagerDataAdapter = gridViewPagerDataAdapter;
-        sizeAll = gridViewPagerDataAdapter.sizeAll;
+        if (gridViewPagerDataAdapter.listAll == null || gridViewPagerDataAdapter.listAll.size() == 0) {
+            return;
+        }
+        listAll = gridViewPagerDataAdapter.listAll;
         rowInOnePage = gridViewPagerDataAdapter.rowInOnePage;
         columnInOnePage = gridViewPagerDataAdapter.columnInOnePage;
         init();
@@ -43,13 +47,13 @@ public class GridViewPager extends ViewPager {
 
     public void init() {
         int sizeInOnePage = rowInOnePage * columnInOnePage;
-        int pageCount = sizeAll / sizeInOnePage;
-        pageCount += sizeAll % sizeInOnePage == 0 ? 0 : 1;
+        int pageCount = listAll.size() / sizeInOnePage;
+        pageCount += listAll.size() % sizeInOnePage == 0 ? 0 : 1;
         for (int i = 0; i < pageCount; i++) {
             final int pageIndex = i;
             WrapContentGridView gv = new WrapContentGridView(getContext());
-            int end = Math.min((i + 1) * sizeInOnePage, sizeAll);
-            gv.setAdapter(gridViewPagerDataAdapter.getGridViewAdapter(sizeInOnePage, i, i * sizeInOnePage, end));
+            int end = Math.min((i + 1) * sizeInOnePage, listAll.size());
+            gv.setAdapter(gridViewPagerDataAdapter.getGridViewAdapter(listAll.subList(i * sizeInOnePage, end), i));
             gv.setGravity(Gravity.CENTER);
             gv.setClickable(true);
             gv.setFocusable(true);
@@ -76,7 +80,7 @@ public class GridViewPager extends ViewPager {
             if (h > height)
                 height = h;
         }
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height+getPaddingBottom()+getPaddingTop(), MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height + getPaddingBottom() + getPaddingTop(), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

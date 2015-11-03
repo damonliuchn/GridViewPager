@@ -4,16 +4,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-public abstract class GridViewPagerDataAdapter  {
-	public int sizeAll;
-	public int rowInOnePage;
-	public int columnInOnePage;
-	public GridViewPagerDataAdapter(int sizeAll,int rowInOnePage,int columnInOnePage) {
-		this.sizeAll = sizeAll;
-		this.rowInOnePage = rowInOnePage;
-		this.columnInOnePage = columnInOnePage;
-	}
+import java.util.List;
 
-	public abstract BaseAdapter getGridViewAdapter(int sizeInOnePage, int pageIndex,int start,int end) ;
-	public abstract void onItemClick(AdapterView<?> parent, View view, int position, long id, int pageIndex);
+public abstract class GridViewPagerDataAdapter<T> {
+    public List listAll;
+    public int rowInOnePage;
+    public int columnInOnePage;
+
+    public GridViewPagerDataAdapter(List<T> listAll, int rowInOnePage, int columnInOnePage) {
+        this.listAll = listAll;
+        this.rowInOnePage = rowInOnePage;
+        this.columnInOnePage = columnInOnePage;
+    }
+
+    public abstract BaseAdapter getGridViewAdapter(List<T> currentList, int pageIndex);
+
+    public abstract void onItemClick(AdapterView<?> parent, View view, int position, long id, int pageIndex);
 }
