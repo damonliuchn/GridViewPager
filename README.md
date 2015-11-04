@@ -7,8 +7,27 @@ GridView in ViewPager
 <img src="https://github.com/MasonLiuChn/GridViewPager/raw/master/example/doc/3.png"  width="320"/>
 
 #Usage: 
-
+example：
 ```java
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        final List<String> list= Arrays.asList(mStrs);
+        mViewPager = (GridViewPager) findViewById(R.id.myviewpager);
+        mViewPager.setGridViewPagerDataAdapter(new GridViewPagerDataAdapter<String>(list, 2, 4) {
+            @Override
+            public BaseAdapter getGridViewAdapter(List<String> currentList,int pageIndex) {
+                return new MyGridViewAdapter(getApplicationContext(), currentList);
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id, int pageIndex) {
+
+            }
+        });
+    }
+ ```   
+ ```java
 repositories {
     maven {
         url "https://jitpack.io"
