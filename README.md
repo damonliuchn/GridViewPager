@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.MasonLiuChn:GridViewPager:1.0.1'
+    compile 'com.github.MasonLiuChn:GridViewPager:1.0.2'
 }
 ```
 
