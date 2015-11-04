@@ -49,22 +49,33 @@ public class GridViewPager extends ViewPager {
         int sizeInOnePage = rowInOnePage * columnInOnePage;
         int pageCount = listAll.size() / sizeInOnePage;
         pageCount += listAll.size() % sizeInOnePage == 0 ? 0 : 1;
+        if (mLists.size() > pageCount) {
+            for (int i = mLists.size() - 1; i >= pageCount; i--) {
+                mLists.remove(i);
+            }
+        }
+        WrapContentGridView gv;
+        int end;
         for (int i = 0; i < pageCount; i++) {
             final int pageIndex = i;
-            WrapContentGridView gv = new WrapContentGridView(getContext());
-            int end = Math.min((i + 1) * sizeInOnePage, listAll.size());
+            if (i < mLists.size()) {
+                gv = (WrapContentGridView) mLists.get(i);
+            } else {
+                gv = new WrapContentGridView(getContext());
+                gv.setGravity(Gravity.CENTER);
+                gv.setClickable(true);
+                gv.setFocusable(true);
+                gv.setNumColumns(columnInOnePage);
+                mLists.add(gv);
+            }
+            end = Math.min((i + 1) * sizeInOnePage, listAll.size());
             gv.setAdapter(gridViewPagerDataAdapter.getGridViewAdapter(listAll.subList(i * sizeInOnePage, end), i));
-            gv.setGravity(Gravity.CENTER);
-            gv.setClickable(true);
-            gv.setFocusable(true);
-            gv.setNumColumns(columnInOnePage);
             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                     gridViewPagerDataAdapter.onItemClick(arg0, arg1, arg2, arg3, pageIndex);
                 }
             });
-            mLists.add(gv);
         }
         adapter = new GridViewPagerAdapter(getContext(), mLists);
         setAdapter(adapter);
@@ -73,8 +84,8 @@ public class GridViewPager extends ViewPager {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = 0;
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+        for (int i = 0; mLists != null && i < mLists.size(); i++) {
+            View child = mLists.get(i);
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
             if (h > height)
