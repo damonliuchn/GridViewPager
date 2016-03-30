@@ -65,9 +65,9 @@ public class GridViewPager extends ViewPager {
                 gv.setGravity(Gravity.CENTER);
                 gv.setClickable(true);
                 gv.setFocusable(true);
-                gv.setNumColumns(columnInOnePage);
                 mLists.add(gv);
             }
+            gv.setNumColumns(columnInOnePage);
             end = Math.min((i + 1) * sizeInOnePage, listAll.size());
             gv.setAdapter(gridViewPagerDataAdapter.getGridViewAdapter(listAll.subList(i * sizeInOnePage, end), i));
             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
